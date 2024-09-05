@@ -1,0 +1,40 @@
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserverCOMPOSE
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=P#ssw0rd1234
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_dataCOMPOSE:/var/opt/mssql  
+    networks:
+      appnetwork:
+        ipv4_address: 172.28.1.2
+    restart: unless-stopped
+
+  webapi:
+    image: genlch/webapi-docker-utn:v1.0
+    container_name: webapi-docker-utn-dockerhubCOMPOSE
+    environment:
+      - DB_CONNECTION_STRING=Server=172.28.1.2,1433;Database=master;User Id=sa;Password=P#ssw0rd1234;
+    ports:
+      - "8080:80"
+    depends_on:
+      - sqlserver  
+    networks:
+      appnetwork:
+        ipv4_address: 172.28.1.3
+    restart: unless-stopped
+
+networks:
+  appnetwork:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+
+volumes:
+  sql_dataCOMPOSE:

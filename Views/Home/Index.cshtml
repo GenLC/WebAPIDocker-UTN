@@ -1,0 +1,72 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h2>Submit a String</h2>
+
+<form id="stringForm">
+    <label for="stringInput">Enter a string:</label>
+    <input type="text" id="stringInput" name="stringInput" required />
+    <button type="button" onclick="submitString()">Submit</button>
+    <button type="button" onclick="checkConnection()">Check DB Connection</button>
+    <div id="loadingMessage" style="display: none;">Cargando...</div>
+    <div id="apiResponse" style="font-weight: bold; color: green;"></div>
+
+
+</form>
+
+<div id="responseMessage"></div>
+
+<script>
+    async function submitString() {
+        const inputValue = document.getElementById("stringInput").value;
+        const loadingMessage = document.getElementById("loadingMessage");
+        const apiResponseElement = document.getElementById("apiResponse");
+        document.getElementById("apiResponse").value ="";
+        // Mostrar el mensaje de carga
+        loadingMessage.style.display = "block";
+
+        const response = await fetch('/api/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(inputValue)
+        });
+
+        const jsonResponse = await response.json();
+
+        // Ocultar el mensaje de carga
+        loadingMessage.style.display = "none";
+
+        // Mostrar la respuesta de la API en el elemento "apiResponse"
+        apiResponseElement.innerText = jsonResponse.Message + jsonResponse.AdditionalInfo;
+    }
+
+
+      async function checkConnection() {
+        const inputValue = document.getElementById("stringInput").value;
+        const loadingMessage = document.getElementById("loadingMessage");
+        const apiResponseElement = document.getElementById("apiResponse");
+        document.getElementById("apiResponse").value ="";
+        // Mostrar el mensaje de carga
+        loadingMessage.style.display = "block";
+
+        const response = await fetch('/api/getDBInfo', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const jsonResponse = await response.json();
+
+        // Ocultar el mensaje de carga
+        loadingMessage.style.display = "none";
+
+        // Mostrar la respuesta de la API en el elemento "apiResponse"
+        apiResponseElement.innerText = jsonResponse.Message + jsonResponse.AdditionalInfo;
+    }
+
+
+</script>

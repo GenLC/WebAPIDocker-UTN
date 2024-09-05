@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "haPEkkqbpLhuBwK6WLmCovXS7YU7H+5DSD+XMYk4V2g=",
+  "Source": "WebAPIDockerUTN",
+  "BasePath": "_content/WebAPIDockerUTN",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
